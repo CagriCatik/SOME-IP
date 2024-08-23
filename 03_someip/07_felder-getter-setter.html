@@ -174,6 +174,204 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="felder---gettersetter"><a class="header" href="#felder---gettersetter">Felder - Getter/Setter</a></h1>
+<h3 id="37-felder---gettersetter-in-someip"><a class="header" href="#37-felder---gettersetter-in-someip">3.7 <strong>Felder - Getter/Setter in SOME/IP</strong></a></h3>
+<p>Das <strong>Getter/Setter-Modell</strong> in SOME/IP ist ein grundlegendes Konzept, das verwendet wird, um den Zugriff auf und die Verwaltung von Datenfeldern innerhalb von Diensten zu steuern. Dieses Modell ermöglicht es Diensten, Werte von Feldern sicher zu lesen (Getter) und zu ändern (Setter). In der Automobilindustrie ist dieses Modell besonders wichtig, da es eine kontrollierte Interaktion mit kritischen Systemparametern ermöglicht. In diesem Abschnitt wird das Getter/Setter-Modell detailliert erklärt, einschließlich seiner Anwendung in realen Fahrzeugarchitekturen.</p>
+<h4 id="371-einführung-in-das-gettersetter-modell"><a class="header" href="#371-einführung-in-das-gettersetter-modell">3.7.1 <strong>Einführung in das Getter/Setter-Modell</strong></a></h4>
+<p><strong>Definition und Funktionsweise:</strong>
+Das Getter/Setter-Modell in SOME/IP wird verwendet, um den Zugriff auf spezifische Datenfelder innerhalb eines Dienstes zu ermöglichen. Ein <strong>Getter</strong> erlaubt es einem Client, den aktuellen Wert eines Feldes zu lesen, während ein <strong>Setter</strong> es dem Client ermöglicht, den Wert des Feldes zu ändern. Dieses Modell stellt sicher, dass Datenfelder nur durch autorisierte Zugriffe gelesen oder modifiziert werden können und gewährleistet so die Integrität der Systemparameter.</p>
+<p><strong>Hauptmerkmale:</strong></p>
+<ul>
+<li><strong>Sicherer Zugriff:</strong> Nur autorisierte Clients können auf bestimmte Datenfelder zugreifen und deren Werte ändern.</li>
+<li><strong>Datenintegrität:</strong> Durch den kontrollierten Zugriff über Getter und Setter bleibt die Integrität der Datenfelder gewahrt.</li>
+<li><strong>Kapselung:</strong> Das Modell fördert die Kapselung, indem es direkten Zugriff auf die Daten verhindert und stattdessen definierte Schnittstellen für den Zugriff bereitstellt.</li>
+</ul>
+<p><strong>Diagramm: Getter/Setter-Kommunikationsmuster</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                 Getter/Setter-Muster in SOME/IP             |
+| +---------------------------------------------------------+ |
+| |  Client (z.B. Steuergerät A)                            | |
+| |  - Sendet Getter-Anfrage: Liest aktuellen Wert           | |
+| |  - Sendet Setter-Anfrage: Setzt neuen Wert               | |
+| +---------------------------------------------------------+ |
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Server (z.B. Steuergerät B)                            | |
+| |  - Verarbeitet Getter: Liefert aktuellen Wert           | |
+| |  - Verarbeitet Setter: Ändert Feldwert                  | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="372-verwendung-des-gettersetter-modells-in-someip"><a class="header" href="#372-verwendung-des-gettersetter-modells-in-someip">3.7.2 <strong>Verwendung des Getter/Setter-Modells in SOME/IP</strong></a></h4>
+<p><strong>Schritte im Getter/Setter-Prozess:</strong></p>
+<ol>
+<li>
+<p><strong>Getter-Anfrage:</strong></p>
+<ul>
+<li>Der Client sendet eine Anfrage, um den aktuellen Wert eines spezifischen Datenfeldes von einem Server zu lesen. Diese Anfrage enthält die Identifikation des Feldes, das gelesen werden soll.</li>
+</ul>
+</li>
+<li>
+<p><strong>Getter-Verarbeitung:</strong></p>
+<ul>
+<li>Der Server empfängt die Getter-Anfrage, liest den aktuellen Wert des angeforderten Feldes und sendet den Wert als Antwort an den Client zurück.</li>
+</ul>
+</li>
+<li>
+<p><strong>Setter-Anfrage:</strong></p>
+<ul>
+<li>Der Client sendet eine Anfrage, um den Wert eines spezifischen Datenfeldes zu ändern. Die Anfrage enthält den neuen Wert, der in das Feld geschrieben werden soll.</li>
+</ul>
+</li>
+<li>
+<p><strong>Setter-Verarbeitung:</strong></p>
+<ul>
+<li>Der Server empfängt die Setter-Anfrage und aktualisiert das angeforderte Feld mit dem neuen Wert. Der Server kann optional eine Bestätigung an den Client senden.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Typische Nachrichtenstruktur in SOME/IP:</strong></p>
+<ul>
+<li>
+<p><strong>Getter-Anfrage und -Antwort:</strong></p>
+<ul>
+<li><strong>Header:</strong> Enthält Informationen wie Nachrichtentypen, Service-IDs und Field-IDs.</li>
+<li><strong>Payload:</strong> Beinhaltet den aktuellen Wert des angeforderten Feldes.</li>
+</ul>
+</li>
+<li>
+<p><strong>Setter-Anfrage und -Bestätigung:</strong></p>
+<ul>
+<li><strong>Header:</strong> Enthält Informationen wie Nachrichtentypen, Service-IDs und Field-IDs.</li>
+<li><strong>Payload:</strong> Beinhaltet den neuen Wert, der im Feld gesetzt werden soll.</li>
+</ul>
+</li>
+</ul>
+<h4 id="373-beispiele-für-das-gettersetter-modell-in-der-automobilindustrie"><a class="header" href="#373-beispiele-für-das-gettersetter-modell-in-der-automobilindustrie">3.7.3 <strong>Beispiele für das Getter/Setter-Modell in der Automobilindustrie</strong></a></h4>
+<p><strong>Beispiel 1: Steuerung der Klimaanlage</strong></p>
+<ul>
+<li><strong>Anwendung:</strong> Ein Steuergerät für die Klimaanlage in einem Fahrzeug verwendet das Getter/Setter-Modell, um die gewünschte Temperatur zu lesen und zu ändern. Der Fahrer kann über die Benutzeroberfläche eine neue Zieltemperatur einstellen, die dann an das Steuergerät übermittelt wird.</li>
+<li><strong>Prozess:</strong>
+<ul>
+<li><strong>Getter:</strong> Der Client (z.B. Benutzeroberfläche) liest den aktuellen Sollwert der Temperatur vom Klimaanlagensteuergerät.</li>
+<li><strong>Setter:</strong> Der Client sendet einen neuen Sollwert für die Temperatur, um die Klimaanlage entsprechend anzupassen.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Diagramm: Getter/Setter für Klimaanlage</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                Steuerung der Klimaanlage                    |
+| +---------------------------------------------------------+ |
+| |  Client (z.B. Benutzeroberfläche)                       | |
+| |  - Sendet Getter: Liest aktuelle Solltemperatur          | |
+| |  - Sendet Setter: Setzt neue Solltemperatur              | |
+| +---------------------------------------------------------+ |
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Server (z.B. Klimaanlagensteuergerät)                  | |
+| |  - Verarbeitet Getter: Sendet aktuelle Solltemperatur    | |
+| |  - Verarbeitet Setter: Ändert Solltemperatur             | |
++-------------------------------------------------------------+
+</code></pre>
+<p><strong>Beispiel 2: Anpassung der Fahrmodi in einem Elektrofahrzeug</strong></p>
+<ul>
+<li><strong>Anwendung:</strong> In einem Elektrofahrzeug kann der Fahrer den Fahrmodus (z.B. Eco, Sport, Comfort) ändern, um die Fahrzeugdynamik anzupassen. Das Steuergerät für das Fahrverhalten verwendet das Getter/Setter-Modell, um den aktuellen Fahrmodus zu lesen und einen neuen Fahrmodus festzulegen.</li>
+<li><strong>Prozess:</strong>
+<ul>
+<li><strong>Getter:</strong> Der Client liest den aktuellen Fahrmodus vom Steuergerät.</li>
+<li><strong>Setter:</strong> Der Client setzt einen neuen Fahrmodus basierend auf der Auswahl des Fahrers.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Diagramm: Getter/Setter für Fahrmodi</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                  Anpassung der Fahrmodi                     |
+| +---------------------------------------------------------+ |
+| |  Client (z.B. Fahrmodus-Schalter)                       | |
+| |  - Sendet Getter: Liest aktuellen Fahrmodus              | |
+| |  - Sendet Setter: Setzt neuen Fahrmodus                  | |
+| +---------------------------------------------------------+ |
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Server (z.B. Fahrverhaltenssteuergerät)                | |
+| |  - Verarbeitet Getter: Sendet aktuellen Fahrmodus       | |
+| |  - Verarbeitet Setter: Ändert Fahrmodus                 | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="374-vorteile-des-gettersetter-modells"><a class="header" href="#374-vorteile-des-gettersetter-modells">3.7.4 <strong>Vorteile des Getter/Setter-Modells</strong></a></h4>
+<p><strong>1. Kontrollierter Datenzugriff:</strong></p>
+<ul>
+<li>Das Getter/Setter-Modell stellt sicher, dass nur autorisierte Clients auf bestimmte Datenfelder zugreifen und diese ändern können, was die Sicherheit und Integrität des Systems erhöht.</li>
+</ul>
+<p><strong>2. Kapselung und Modularität:</strong></p>
+<ul>
+<li>Die Verwendung von Getter- und Setter-Methoden fördert die Kapselung, da direkte Zugriffe auf Datenfelder vermieden werden. Dies führt zu einer modulareren und wartungsfreundlicheren Systemarchitektur.</li>
+</ul>
+<p><strong>3. Flexibilität und Anpassungsfähigkeit:</strong></p>
+<ul>
+<li>Das Modell ermöglicht eine flexible Anpassung der Systemparameter durch einfaches Lesen und Ändern von Feldern, ohne dass tiefe Eingriffe in die Systemarchitektur erforderlich sind.</li>
+</ul>
+<p><strong>4. Unterstützung für Remote-Interaktionen:</strong></p>
+<ul>
+<li>Der Zugriff auf Felder über Getter und Setter kann auch über Netzwerke hinweg erfolgen, was die Interoperabilität und die Fernsteuerung von Fahrzeugfunktionen erleichtert.</li>
+</ul>
+<p><strong>Diagramm: Vorteile des Getter/Setter-Modells</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                   Vorteile des Getter/Setter-Modells        |
+| +---------------------------------------------------------+ |
+| |  Kontrollierter Datenzugriff                            | |
+| |  - Nur autorisierte Clients können auf Daten zugreifen   | |
+| +---------------------------------------------------------+ |
+| |  Kapselung und Modularität                              | |
+| |  - Förderung einer wartungsfreundlichen Systemarchitektur | |
+| +---------------------------------------------------------+ |
+| |  Flexibilität und Anpassungsfähigkeit                   | |
+| |  - Einfache Anpassung von Systemparametern               | |
+| +---------------------------------------------------------+ |
+| |  Unterstützung für Remote-Interaktionen                 | |
+| |  - Ermöglicht Fernsteuerung und Interoperabilität        | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="375-best-practices-für-die-implementierung-des-gettersetter-modells"><a class="header" href="#375-best-practices-für-die-implementierung-des-gettersetter-modells">3.7.5 <strong>Best Practices für die Implementierung des Getter/Setter-Modells</strong></a></h4>
+<p><strong>1. Zugriffskontrollen implementieren:</strong></p>
+<ul>
+<li>Stellen Sie sicher, dass nur autorisierte Clients Zugriff auf die Getter und Setter für sicherheitskritische oder sensitive Felder haben. Dies kann durch Authentifizierungs- und Autorisierungsmechanismen erreicht werden.</li>
+</ul>
+<p><strong>2. Datenvalidierung in Settern:</strong></p>
+<ul>
+<li>Implementieren Sie in den Setter-Methoden eine gründliche Datenvalidierung, um sicherzustellen, dass nur gültige und zulässige Werte in die Felder geschrieben werden.</li>
+</ul>
+<p><strong>3. Effiziente Kommunikation sicherstellen:</strong></p>
+<ul>
+<li>Optimieren Sie die Kommunikation zwischen Clients und Servern, um sicherzustellen, dass die Anfragen für Getter und Setter minimalen Overhead haben und die Systemressourcen effizient nutzen.</li>
+</ul>
+<p><strong>4. Logging und Überwachung:</strong></p>
+<ul>
+<li>Führen Sie Protokollierungs- und Überwachungsmechanismen ein,</li>
+</ul>
+<p>um den Zugriff auf Getter und Setter zu verfolgen und potenzielle Missbrauchsfälle oder Fehler zu erkennen.</p>
+<p><strong>Diagramm: Best Practices für Getter/Setter</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|               Best Practices für Getter/Setter              |
+| +---------------------------------------------------------+ |
+| |  Zugriffskontrollen implementieren                      | |
+| |  - Authentifizierungs- und Autorisierungsmechanismen     | |
+| +---------------------------------------------------------+ |
+| |  Datenvalidierung in Settern                            | |
+| |  - Sicherstellen der Datenintegrität durch Validierung   | |
+| +---------------------------------------------------------+ |
+| |  Effiziente Kommunikation                               | |
+| |  - Minimaler Overhead bei Anfragen und Antworten         | |
+| +---------------------------------------------------------+ |
+| |  Logging und Überwachung                                | |
+| |  - Verfolgen und Überwachen von Zugriffen auf Datenfelder | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="376-zusammenfassung"><a class="header" href="#376-zusammenfassung">3.7.6 <strong>Zusammenfassung</strong></a></h4>
+<p>Das Getter/Setter-Modell in SOME/IP bietet eine strukturierte und sichere Methode zur Verwaltung und zum Zugriff auf Datenfelder innerhalb von Fahrzeugdiensten. Es fördert die Kapselung und Modularität der Systemarchitektur und stellt sicher, dass Systemparameter nur durch autorisierte Zugriffe geändert werden können. Durch die Implementierung von Best Practices können Ingenieure sicherstellen, dass ihre Systeme sowohl sicher als auch effizient arbeiten und den Anforderungen moderner Fahrzeuge gerecht werden.</p>
+<hr />
+<p>Dieses Kapitel bietet eine detaillierte Analyse des Getter/Setter-Modells in SOME/IP und zeigt auf, wie es in der Automobilindustrie eingesetzt werden kann, um eine kontrollierte und sichere Interaktion mit Fahrzeugdiensten zu gewährleisten. Ingenieure und technische Fachkräfte können diese Informationen nutzen, um robuste und sichere Kommunikationssysteme in ihren Fahrzeugprojekten zu entwickeln.</p>
 
                     </main>
 

@@ -174,6 +174,131 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="someip-service-discovery---beispiel"><a class="header" href="#someip-service-discovery---beispiel">SOME/IP Service Discovery - Beispiel</a></h1>
+<h3 id="42-someip-service-discovery---beispiel"><a class="header" href="#42-someip-service-discovery---beispiel">4.2 <strong>SOME/IP Service Discovery - Beispiel</strong></a></h3>
+<p>In diesem Abschnitt wird ein detailliertes Schritt-für-Schritt-Beispiel für die Verwendung von SOME/IP Service Discovery (SOME/IP-SD) in einer realistischen Fahrzeugumgebung vorgestellt. Das Beispiel demonstriert, wie Dienste registriert, entdeckt und genutzt werden, um die praktische Anwendung von SOME/IP-SD in einem vernetzten Fahrzeugsystem zu verdeutlichen.</p>
+<h4 id="421-einführung-in-das-szenario"><a class="header" href="#421-einführung-in-das-szenario">4.2.1 <strong>Einführung in das Szenario</strong></a></h4>
+<p><strong>Hypothetisches Szenario:</strong>
+Stellen Sie sich ein modernes vernetztes Fahrzeug vor, in dem verschiedene Steuergeräte (Electronic Control Units, ECUs) miteinander kommunizieren, um dem Fahrer ein nahtloses Erlebnis zu bieten. In diesem Szenario konzentrieren wir uns auf drei Hauptakteure:</p>
+<ol>
+<li><strong>Infotainment-Steuergerät (ECU A):</strong> Bietet verschiedene Dienste wie Musik-Streaming und Navigationsanweisungen.</li>
+<li><strong>Klimasteuergerät (ECU B):</strong> Möchte die Musiklautstärke anpassen, basierend auf der aktuellen Klimasteuerung (z.B. lauter, wenn das Gebläse stark läuft).</li>
+<li><strong>Fahrerdisplay (ECU C):</strong> Möchte Navigationsanweisungen vom Infotainment-System anzeigen.</li>
+</ol>
+<p>Das Ziel ist es, zu zeigen, wie das Infotainment-Steuergerät seine Dienste über SOME/IP-SD anbietet, wie das Klimasteuergerät und das Fahrerdisplay diese Dienste entdecken und abonnieren, und wie diese Dienste dann genutzt werden.</p>
+<h4 id="422-schritt-1-dienstankündigung-service-announcement"><a class="header" href="#422-schritt-1-dienstankündigung-service-announcement">4.2.2 <strong>Schritt 1: Dienstankündigung (Service Announcement)</strong></a></h4>
+<p>Das Infotainment-Steuergerät (ECU A) startet das Fahrzeug und bietet seine Dienste an. Es sendet <strong>Service Offer Messages</strong> über das Netzwerk, um die Verfügbarkeit der folgenden Dienste anzukündigen:</p>
+<ul>
+<li><strong>Musik-Streaming-Service</strong></li>
+<li><strong>Navigationsanweisungs-Service</strong></li>
+</ul>
+<p><strong>Details zur Nachricht:</strong></p>
+<ul>
+<li><strong>Service ID:</strong> Eindeutige Kennung für jeden Dienst (z.B. 0x1001 für Musik-Streaming, 0x1002 für Navigation).</li>
+<li><strong>Instance ID:</strong> Instanz des Dienstes, falls mehrere Instanzen desselben Dienstes angeboten werden.</li>
+<li><strong>Major/Minor Version:</strong> Gibt die Version des Dienstes an.</li>
+<li><strong>TTL (Time to Live):</strong> Gibt die Zeitdauer an, für die das Angebot gültig ist.</li>
+</ul>
+<p><strong>Diagramm: Dienstankündigung durch ECU A</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                  ECU A: Infotainment-Steuergerät            |
+| +---------------------------------------------------------+ |
+| |  Sendet Service Offer Message                           | |
+| |  - Service ID: 0x1001 (Musik-Streaming)                 | |
+| |  - Service ID: 0x1002 (Navigationsanweisungen)          | |
+| |  - TTL: 5 Minuten                                       | |
+| +---------------------------------------------------------+ |
+</code></pre>
+<h4 id="423-schritt-2-dienstsuche-service-discovery"><a class="header" href="#423-schritt-2-dienstsuche-service-discovery">4.2.3 <strong>Schritt 2: Dienstsuche (Service Discovery)</strong></a></h4>
+<p>Das Klimasteuergerät (ECU B) und das Fahrerdisplay (ECU C) starten ebenfalls. Beide Steuergeräte müssen die vom Infotainment-Steuergerät angebotenen Dienste nutzen. Daher senden sie <strong>Service Find Messages</strong>, um nach den spezifischen Diensten zu suchen.</p>
+<p><strong>Details zur Nachricht:</strong></p>
+<ul>
+<li><strong>Service ID:</strong> Das Klimasteuergerät sucht nach 0x1001 (Musik-Streaming), das Fahrerdisplay nach 0x1002 (Navigationsanweisungen).</li>
+<li><strong>Instance ID:</strong> Identifiziert die Instanz des Dienstes, falls erforderlich.</li>
+<li><strong>Major/Minor Version:</strong> Version des gewünschten Dienstes, um sicherzustellen, dass die Versionen kompatibel sind.</li>
+</ul>
+<p><strong>Diagramm: Dienstsuche durch ECU B und ECU C</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|             ECU B: Klimasteuergerät                        | |
+| +---------------------------------------------------------+ |
+| |  Sendet Service Find Message                            | |
+| |  - Sucht Service ID: 0x1001 (Musik-Streaming)           | |
+| +---------------------------------------------------------+ |
+|                                                           | |
+|             ECU C: Fahrerdisplay                          | |
+| +---------------------------------------------------------+ |
+| |  Sendet Service Find Message                            | |
+| |  - Sucht Service ID: 0x1002 (Navigationsanweisungen)    | |
+| +---------------------------------------------------------+ |
+</code></pre>
+<h4 id="424-schritt-3-dienstabonnement-service-subscription"><a class="header" href="#424-schritt-3-dienstabonnement-service-subscription">4.2.4 <strong>Schritt 3: Dienstabonnement (Service Subscription)</strong></a></h4>
+<p>Nachdem die Dienste vom Klimasteuergerät und vom Fahrerdisplay gefunden wurden, abonnieren sie die gewünschten Dienste, um regelmäßig Benachrichtigungen oder Daten zu erhalten. Dies erfolgt durch das Senden von <strong>Subscribe Messages</strong> an das Infotainment-Steuergerät.</p>
+<p><strong>Details zur Nachricht:</strong></p>
+<ul>
+<li><strong>Service ID:</strong> Gibt den Dienst an, der abonniert werden soll (z.B. 0x1001 für Musik-Streaming).</li>
+<li><strong>Event Group ID:</strong> Identifiziert die spezifische Gruppe von Ereignissen, die das Steuergerät abonnieren möchte.</li>
+<li><strong>Subscription Interval:</strong> Gibt an, wie oft das Steuergerät Updates vom Dienst erhalten möchte.</li>
+</ul>
+<p><strong>Diagramm: Dienstabonnement durch ECU B und ECU C</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                ECU B: Klimasteuergerät                     | |
+| +---------------------------------------------------------+ |
+| |  Sendet Subscribe Message                               | |
+| |  - Abonniert Service ID: 0x1001 (Musik-Streaming)       | |
+| |  - Event Group ID: 0x01 (Lautstärkeanpassung)           | |
+| +---------------------------------------------------------+ |
+|                                                           | |
+|                ECU C: Fahrerdisplay                       | |
+| +---------------------------------------------------------+ |
+| |  Sendet Subscribe Message                               | |
+| |  - Abonniert Service ID: 0x1002 (Navigationsanweisungen)| |
+| |  - Event Group ID: 0x01 (Richtungsanweisungen)          | |
+| +---------------------------------------------------------+ |
+</code></pre>
+<h4 id="425-schritt-4-nutzung-der-dienste-service-usage"><a class="header" href="#425-schritt-4-nutzung-der-dienste-service-usage">4.2.5 <strong>Schritt 4: Nutzung der Dienste (Service Usage)</strong></a></h4>
+<p>Nachdem das Klimasteuergerät und das Fahrerdisplay die Dienste abonniert haben, nutzen sie diese in Echtzeit. Das Infotainment-Steuergerät sendet kontinuierlich Updates an die abonnierten Steuergeräte.</p>
+<p><strong>1. Musik-Streaming-Dienst:</strong></p>
+<ul>
+<li><strong>Anpassung der Lautstärke:</strong> Das Klimasteuergerät passt die Lautstärke basierend auf der Gebläsegeschwindigkeit an. Das Infotainment-Steuergerät sendet Lautstärkeanpassungen gemäß den abonnierten Eventgruppen.</li>
+</ul>
+<p><strong>2. Navigationsanweisungen-Dienst:</strong></p>
+<ul>
+<li><strong>Anzeige der Navigationsanweisungen:</strong> Das Fahrerdisplay zeigt die vom Infotainment-System bereitgestellten Navigationsanweisungen an. Diese werden in Echtzeit gesendet, wenn das Fahrzeug in Bewegung ist.</li>
+</ul>
+<p><strong>Diagramm: Nutzung der Dienste durch ECU B und ECU C</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                ECU B: Klimasteuergerät                     | |
+| +---------------------------------------------------------+ |
+| |  Empfängt Lautstärkeanpassung                           | |
+| |  - Erhöht Lautstärke, wenn Gebläsegeschwindigkeit hoch ist | |
+| +---------------------------------------------------------+ |
+|                                                           | |
+|                ECU C: Fahrerdisplay                       | |
+| +---------------------------------------------------------+ |
+| |  Empfängt Navigationsanweisungen                        | |
+| |  - Zeigt Richtungsanweisungen auf dem Display an         | |
+| +---------------------------------------------------------+ |
+</code></pre>
+<h4 id="426-zusammenfassung-des-beispiels"><a class="header" href="#426-zusammenfassung-des-beispiels">4.2.6 <strong>Zusammenfassung des Beispiels</strong></a></h4>
+<p>Das Beispiel zeigt, wie Dienste in einem modernen Fahrzeugnetzwerk mithilfe von SOME/IP Service Discovery entdeckt, abonniert und genutzt werden. Die Fähigkeit, Dienste zur Laufzeit dynamisch zu entdecken und zu verwalten, bietet zahlreiche Vorteile, darunter erhöhte Flexibilität, Skalierbarkeit und verbesserte Benutzererlebnisse. Durch die Implementierung von SOME/IP-SD können Fahrzeughersteller sicherstellen, dass ihre Systeme effizient und zukunftssicher sind, indem sie neue Dienste einfach integrieren und bestehende erweitern können.</p>
+<p><strong>Zusammenfassung der Schritte:</strong></p>
+<ol>
+<li><strong>Dienstankündigung:</strong> Das Infotainment-Steuergerät bietet seine Dienste im Netzwerk an.</li>
+<li><strong>Dienstsuche:</strong> Das Klimasteuergerät und das Fahrerdisplay suchen nach den angebotenen Diensten.</li>
+<li><strong>Dienstabonnement:</strong> Beide Steuergeräte abonnieren die gewünschten Dienste, um Updates zu erhalten.</li>
+<li><strong>Nutzung der Dienste:</strong> Die abonnierten Dienste werden in Echtzeit genutzt, um die Funktionalität des Fahrzeugs zu verbessern.</li>
+</ol>
+<p><strong>Diagramm: Zusammenfassung des SOME/IP-SD-Prozesses</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|              Zusammenfassung des SOME/IP-SD-Prozesses       |
+| +---------------------------------------------------------+ |
+| |  1. Dienstankündigung durch ECU A                        | |
+| |  2. Dienstsuche durch ECU B und ECU C                    | |
+| |  3. Dienstabonnement durch ECU B und ECU C               | |
+| |  4. Nutzung der Dienste durch ECU B und ECU C            | |
++-------------------------------------------------------------+
+</code></pre>
+<hr />
+<p>Dieses Kapitel bietet einen detaillierten Schritt-für-Schritt-Einblick in die Funktionsweise von SOME/IP Service Discovery anhand eines praktischen Beispiels. Ingenieure und technische Fachkräfte können dieses Wissen nutzen, um die Integration und Verwaltung von Diensten in modernen vernetzten Fahrzeugen effizient zu gestalten.</p>
 
                     </main>
 

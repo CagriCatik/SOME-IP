@@ -174,6 +174,198 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="ereignis---publishsubscribe"><a class="header" href="#ereignis---publishsubscribe">Ereignis - Publish/Subscribe</a></h1>
+<h3 id="35-ereignis---publishsubscribe-in-someip"><a class="header" href="#35-ereignis---publishsubscribe-in-someip">3.5 <strong>Ereignis - Publish/Subscribe in SOME/IP</strong></a></h3>
+<p>Das <strong>Publish/Subscribe (Pub/Sub)</strong>-Modell ist ein zentrales Kommunikationsmuster in eventgesteuerten Architekturen, insbesondere in serviceorientierten Architekturen (SOA) innerhalb von Fahrzeugen. Es ermöglicht eine effiziente und skalierbare Kommunikation zwischen verschiedenen Diensten, indem Ereignisse von einem Dienst (Publisher) veröffentlicht und von einem oder mehreren Diensten (Subscriber) abonniert werden. In diesem Abschnitt wird das Publish/Subscribe-Modell in SOME/IP detailliert beschrieben, einschließlich der Funktionsweise, der Anwendung in der Automobilindustrie und praktischer Beispiele.</p>
+<h4 id="351-einführung-in-das-publishsubscribe-modell"><a class="header" href="#351-einführung-in-das-publishsubscribe-modell">3.5.1 <strong>Einführung in das Publish/Subscribe-Modell</strong></a></h4>
+<p><strong>Definition und Funktionsweise:</strong>
+Das Publish/Subscribe-Modell ist ein asynchrones Kommunikationsmuster, bei dem ein Dienst (Publisher) Ereignisse veröffentlicht, die von einem oder mehreren anderen Diensten (Subscriber) abonniert werden können. Dieses Modell trennt die Rolle des Nachrichtensenders von der des Empfängers, wodurch eine lose Kopplung zwischen den Diensten entsteht.</p>
+<p><strong>Hauptmerkmale:</strong></p>
+<ul>
+<li><strong>Asynchrone Kommunikation:</strong> Im Gegensatz zu synchronen Mustern wie Request/Response erfolgt die Kommunikation asynchron, das heißt, der Publisher muss nicht warten, bis die Nachricht von den Subscribern empfangen wird.</li>
+<li><strong>Lose Kopplung:</strong> Publisher und Subscriber kennen sich gegenseitig nicht direkt, was die Skalierbarkeit und Flexibilität des Systems erhöht.</li>
+<li><strong>Eventgesteuert:</strong> Dienste reagieren auf bestimmte Ereignisse, anstatt periodisch nach Informationen zu fragen, was die Effizienz und Reaktionsfähigkeit des Systems verbessert.</li>
+</ul>
+<p><strong>Diagramm: Publish/Subscribe-Kommunikationsmuster</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|             Publish/Subscribe-Muster in SOME/IP             |
+| +---------------------------------------------------------+ |
+| |  Publisher (z.B. Sensor)                                 | |
+| |  - Veröffentlicht Ereignis: Messwert                    | |
+| +---------------------------------------------------------+ |
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 1 (z.B. Steuergerät A)                      | |
+| |  - Abonniert Ereignis: Verarbeitet Messwert            | |
+| +---------------------------------------------------------+ |
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 2 (z.B. Steuergerät B)                      | |
+| |  - Abonniert Ereignis: Verarbeitet Messwert            | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="352-verwendung-des-publishsubscribe-modells-in-someip"><a class="header" href="#352-verwendung-des-publishsubscribe-modells-in-someip">3.5.2 <strong>Verwendung des Publish/Subscribe-Modells in SOME/IP</strong></a></h4>
+<p><strong>Schritte im Publish/Subscribe-Prozess:</strong></p>
+<ol>
+<li>
+<p><strong>Publisher veröffentlicht Ereignis:</strong></p>
+<ul>
+<li>Ein Dienst (Publisher) erzeugt ein Ereignis, das veröffentlicht wird. Dieses Ereignis könnte eine Statusänderung, ein Messwert oder eine andere wichtige Information sein.</li>
+</ul>
+</li>
+<li>
+<p><strong>Subscriber abonnieren Ereignisse:</strong></p>
+<ul>
+<li>Andere Dienste (Subscriber) abonnieren das Ereignis des Publishers. Sie werden automatisch benachrichtigt, wenn das Ereignis eintritt.</li>
+</ul>
+</li>
+<li>
+<p><strong>Ereignisbenachrichtigung:</strong></p>
+<ul>
+<li>Sobald das Ereignis eintritt, sendet der Publisher die Nachricht an alle registrierten Subscriber, die dann die Information verarbeiten können.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Typische Nachrichtenstruktur in SOME/IP:</strong></p>
+<ul>
+<li><strong>Header:</strong> Enthält Informationen wie die Nachrichtentypen, Service-IDs und Event-IDs.</li>
+<li><strong>Payload:</strong> Beinhaltet die eigentlichen Daten, die im Ereignis übertragen werden, wie z. B. Sensordaten oder Statusinformationen.</li>
+</ul>
+<h4 id="353-beispiele-für-publishsubscribe-in-der-automobilindustrie"><a class="header" href="#353-beispiele-für-publishsubscribe-in-der-automobilindustrie">3.5.3 <strong>Beispiele für Publish/Subscribe in der Automobilindustrie</strong></a></h4>
+<p><strong>Beispiel 1: Reifendrucküberwachungssystem (TPMS)</strong></p>
+<ul>
+<li><strong>Anwendung:</strong> Das Reifendrucküberwachungssystem (TPMS) in einem Fahrzeug überwacht kontinuierlich den Luftdruck in den Reifen. Wenn der Druck in einem Reifen unter einen bestimmten Schwellenwert fällt, veröffentlicht das TPMS ein Ereignis, das von verschiedenen Steuergeräten abonniert wird.</li>
+<li><strong>Prozess:</strong>
+<ul>
+<li><strong>Publish:</strong> Das TPMS erkennt einen niedrigen Reifendruck und veröffentlicht dieses Ereignis.</li>
+<li><strong>Subscribe:</strong> Das zentrale Steuergerät und das Display-System haben dieses Ereignis abonniert und werden sofort benachrichtigt, um den Fahrer zu warnen und die entsprechenden Maßnahmen einzuleiten.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Diagramm: Publish/Subscribe für TPMS</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                   Reifendrucküberwachung (TPMS)             |
+| +---------------------------------------------------------+ |
+| |  Publisher (TPMS-Sensor)                                 | |
+| |  - Veröffentlicht Ereignis: Niedriger Reifendruck       | |
+| +---------------------------------------------------------+ |
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 1 (z.B. Zentralsteuergerät)                 | |
+| |  - Abonniert Ereignis: Zeigt Warnung an                 | |
++-------------------------------------------------------------+
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 2 (z.B. Infotainment-Display)               | |
+| |  - Abonniert Ereignis: Zeigt Druckwarnung an            | |
++-------------------------------------------------------------+
+</code></pre>
+<p><strong>Beispiel 2: Autonomes Fahren - LIDAR-Sensoren</strong></p>
+<ul>
+<li><strong>Anwendung:</strong> In einem autonomen Fahrzeug werden LIDAR-Sensoren verwendet, um die Umgebung zu scannen und Hindernisse zu erkennen. Die Sensordaten werden als Ereignisse veröffentlicht und von verschiedenen Steuergeräten abonniert, die für die Navigation und Steuerung des Fahrzeugs verantwortlich sind.</li>
+<li><strong>Prozess:</strong>
+<ul>
+<li><strong>Publish:</strong> Die LIDAR-Sensoren erkennen ein Hindernis auf der Straße und veröffentlichen ein entsprechendes Ereignis.</li>
+<li><strong>Subscribe:</strong> Das zentrale Steuergerät für das autonome Fahren und das Notbremssystem haben dieses Ereignis abonniert und reagieren sofort, um das Fahrzeug entsprechend zu steuern.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Diagramm: Publish/Subscribe für LIDAR-Daten</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                  Autonomes Fahren - LIDAR-Sensoren          |
+| +---------------------------------------------------------+ |
+| |  Publisher (LIDAR-Sensor)                                | |
+| |  - Veröffentlicht Ereignis: Hindernis erkannt           | |
+| +---------------------------------------------------------+ |
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 1 (z.B. Zentralsteuergerät)                 | |
+| |  - Abonniert Ereignis: Passt Fahrverhalten an           | |
++-------------------------------------------------------------+
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 2 (z.B. Notbremssystem)                    | |
+| |  - Abonniert Ereignis: Aktiviert Notbremsung           | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="354-vorteile-des-publishsubscribe-modells"><a class="header" href="#354-vorteile-des-publishsubscribe-modells">3.5.4 <strong>Vorteile des Publish/Subscribe-Modells</strong></a></h4>
+<p><strong>1. Skalierbarkeit:</strong></p>
+<ul>
+<li>Das Publish/Subscribe-Modell ist sehr skalierbar, da ein Publisher Nachrichten an viele Subscriber senden kann, ohne dass zusätzliche Komplexität entsteht. Dies ist besonders vorteilhaft in Fahrzeugnetzwerken, die eine große Anzahl von Diensten unterstützen müssen.</li>
+</ul>
+<p><strong>2. Flexibilität:</strong></p>
+<ul>
+<li>Die lose Kopplung zwischen Publishern und Subscribern ermöglicht es, neue Dienste einfach hinzuzufügen oder bestehende Dienste zu ändern, ohne dass andere Teile des Systems angepasst werden müssen. Dies erhöht die Flexibilität der Systemarchitektur.</li>
+</ul>
+<p><strong>3. Echtzeitfähige Ereignisverarbeitung:</strong></p>
+<ul>
+<li>Durch das asynchrone und ereignisgesteuerte Kommunikationsmodell können kritische Ereignisse in Echtzeit verarbeitet werden, was für sicherheitskritische Anwendungen, wie z. B. Fahrerassistenzsysteme, entscheidend ist.</li>
+</ul>
+<p><strong>4. Reduzierte Netzwerklast:</strong></p>
+<ul>
+<li>Da nur relevante Ereignisse veröffentlicht werden und nur die Subscriber benachrichtigt werden, die diese Ereignisse abonniert haben, wird die Netzwerklast reduziert. Dies führt zu einer effizienteren Nutzung der Bandbreite und Ressourcen.</li>
+</ul>
+<p><strong>Diagramm: Vorteile des Publish/Subscribe-Modells</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                Vorteile des Publish/Subscribe-Modells       |
+| +---------------------------------------------------------+ |
+| |  Skalierbarkeit                                          | |
+| |  - Unterstützt viele Subscriber ohne zusätzliche Komplexität | |
+| +---------------------------------------------------------+ |
+| |  Flexibilität                                            | |
+| |  - Einfaches Hinzufügen oder Ändern von Diensten          | |
+| +---------------------------------------------------------+ |
+| |  Echtzeitfähige Ereignisverarbeitung                     | |
+| |  - Kritische Ereignisse werden in Echtzeit verarbeitet   | |
+| +---------------------------------------------------------+ |
+| |  Reduzierte Netzwerklast                                 | |
+| |  - Effiziente Nutzung der Bandbreite                     | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="355-best-practices-für-die-implementierung-des-publishsubscribe-modells"><a class="header" href="#355-best-practices-für-die-implementierung-des-publishsubscribe-modells">3.5.5 <strong>Best Practices für die Implementierung des Publish/Subscribe-Modells</strong></a></h4>
+<p><strong>1. Ereignispriorisierung:</strong></p>
+<ul>
+<li>Implementieren Sie Mechanismen zur Priorisierung von Ereignissen, damit kritische Ereignisse sofort verarbeitet werden, während weniger wichtige Ereignisse möglicherweise verzögert werden können.</li>
+</ul>
+<p><strong>2. Fehlerbehandlung:</strong></p>
+<ul>
+<li>Stellen Sie sicher, dass es robuste Fehlerbehandlungsroutinen gibt, um mit ausgefallenen Ereignissen oder nicht erreichbaren Subscribern umzugehen. Dies kann die Implementierung von Wiederholungsmechanismen</li>
+</ul>
+<p>oder Failover-Strategien umfassen.</p>
+<p><strong>3. Überwachung und Logging:</strong></p>
+<ul>
+<li>Überwachen Sie die Ereignisveröffentlichung und -verarbeitung, um sicherzustellen, dass alle Ereignisse korrekt abonniert und verarbeitet werden. Protokollieren Sie wichtige Ereignisse, um die Fehlerbehebung zu erleichtern.</li>
+</ul>
+<p><strong>4. Ressourcennutzung optimieren:</strong></p>
+<ul>
+<li>Planen Sie die Ressourcennutzung so, dass das Netzwerk nicht überlastet wird, insbesondere in Fahrzeugen mit vielen Publishern und Subscribern. Erwägen Sie die Implementierung von Bandbreitenmanagement-Techniken, um die Netzwerkauslastung zu optimieren.</li>
+</ul>
+<p><strong>Diagramm: Best Practices für Publish/Subscribe</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|               Best Practices für Publish/Subscribe          |
+| +---------------------------------------------------------+ |
+| |  Ereignispriorisierung                                   | |
+| |  - Kritische Ereignisse sofort verarbeiten               | |
+| +---------------------------------------------------------+ |
+| |  Fehlerbehandlung                                        | |
+| |  - Robuste Mechanismen für den Umgang mit Fehlern        | |
+| +---------------------------------------------------------+ |
+| |  Überwachung und Logging                                 | |
+| |  - Sicherstellen der korrekten Verarbeitung und Protokollierung | |
+| +---------------------------------------------------------+ |
+| |  Ressourcennutzung optimieren                            | |
+| |  - Netzwerküberlastung vermeiden                        | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="356-zusammenfassung"><a class="header" href="#356-zusammenfassung">3.5.6 <strong>Zusammenfassung</strong></a></h4>
+<p>Das <strong>Publish/Subscribe</strong>-Modell ist eine leistungsstarke Methode zur ereignisgesteuerten Kommunikation in SOME/IP-basierten Fahrzeugnetzwerken. Es ermöglicht eine flexible, skalierbare und effiziente Ereignisverarbeitung, die besonders für sicherheitskritische und zeitkritische Anwendungen in der Automobilindustrie geeignet ist. Durch die Implementierung von Best Practices können Ingenieure und Entwickler sicherstellen, dass das System robust, reaktionsschnell und optimal für die spezifischen Anforderungen eines modernen Fahrzeugs ausgelegt ist.</p>
+<hr />
+<p>Dieses Kapitel bietet einen detaillierten Überblick über das <strong>Publish/Subscribe</strong>-Modell in SOME/IP und zeigt, wie es in der Automobilindustrie eingesetzt werden kann, um ereignisgesteuerte Architekturen zu unterstützen. Ingenieure und technische Fachkräfte können diese Informationen nutzen, um leistungsstarke und skalierbare Kommunikationssysteme in ihren Fahrzeugprojekten zu entwickeln.</p>
 
                     </main>
 

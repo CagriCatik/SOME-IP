@@ -174,6 +174,191 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="autosar-classic-vs-autosar-adaptive"><a class="header" href="#autosar-classic-vs-autosar-adaptive">AUTOSAR Classic vs. AUTOSAR Adaptive</a></h1>
+<h3 id="25-autosar-classic-vs-autosar-adaptive"><a class="header" href="#25-autosar-classic-vs-autosar-adaptive">2.5 <strong>AUTOSAR Classic vs. AUTOSAR Adaptive</strong></a></h3>
+<p>Die AUTOSAR-Architektur (AUTomotive Open System ARchitecture) ist ein wesentlicher Standard in der Automobilindustrie, der darauf abzielt, die Entwicklung von Software für elektronische Steuergeräte (ECUs) zu standardisieren und zu vereinfachen. AUTOSAR existiert in zwei Hauptvarianten: <strong>AUTOSAR Classic</strong> und <strong>AUTOSAR Adaptive</strong>. Diese beiden Plattformen sind auf unterschiedliche Anforderungen und Anwendungsbereiche ausgerichtet. In diesem Abschnitt werden die Unterschiede zwischen AUTOSAR Classic und AUTOSAR Adaptive detailliert erläutert, wobei der Fokus auf ihren jeweiligen Architekturen, Anwendungsfällen und unterstützten Applikationen liegt. Darüber hinaus wird der Übergang von Classic zu Adaptive und dessen Auswirkungen auf Automobilhersteller und Zulieferer diskutiert.</p>
+<h4 id="251-Überblick-über-autosar-classic-und-autosar-adaptive"><a class="header" href="#251-Überblick-über-autosar-classic-und-autosar-adaptive">2.5.1 <strong>Überblick über AUTOSAR Classic und AUTOSAR Adaptive</strong></a></h4>
+<p><strong>AUTOSAR Classic:</strong>
+AUTOSAR Classic ist die ursprüngliche Version der AUTOSAR-Plattform und wurde entwickelt, um die Entwicklung von softwaredefinierten Fahrzeugfunktionen in eingebetteten Systemen zu standardisieren. Es richtet sich hauptsächlich an ECUs mit festgelegten Echtzeit-Anforderungen, die in sicherheitskritischen Anwendungen wie Motorsteuerung, Bremsen und Fahrdynamik eingesetzt werden.</p>
+<p><strong>AUTOSAR Adaptive:</strong>
+AUTOSAR Adaptive ist eine neuere Plattform, die entwickelt wurde, um die steigenden Anforderungen moderner, vernetzter und hochgradig automatisierter Fahrzeuge zu erfüllen. Sie bietet eine flexible, serviceorientierte Architektur (SOA), die für komplexe Anwendungen wie autonomes Fahren, V2X-Kommunikation und Infotainment optimiert ist.</p>
+<h4 id="252-vergleich-der-architekturen"><a class="header" href="#252-vergleich-der-architekturen">2.5.2 <strong>Vergleich der Architekturen</strong></a></h4>
+<p><strong>AUTOSAR Classic Architektur:</strong></p>
+<ul>
+<li>
+<p><strong>Schichtenmodell:</strong> AUTOSAR Classic verwendet eine klassische, schichtenbasierte Architektur, die aus dem Basis-Softwarestack (BSW), der Laufzeitumgebung (RTE) und den Anwendungsschichten besteht.</p>
+<ul>
+<li>
+<p><strong>Basissoftware (BSW):</strong> Umfasst grundlegende Softwarekomponenten, die direkt mit der Hardware interagieren, einschließlich der Abstraktionsschichten und der Kommunikationsdienste.</p>
+</li>
+<li>
+<p><strong>RTE (Runtime Environment):</strong> Vermittelt zwischen den Anwendungssoftwarekomponenten und der Basissoftware, um eine hardwareunabhängige Entwicklung zu ermöglichen.</p>
+</li>
+<li>
+<p><strong>Applikationsschicht:</strong> Besteht aus den eigentlichen funktionalen Softwaremodulen, die spezifische Fahrzeugfunktionen implementieren.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Konfiguration und statische Verbindungen:</strong> Die Softwarearchitektur in AUTOSAR Classic ist weitgehend statisch, was bedeutet, dass die Softwarekonfiguration im Voraus definiert und zur Compile-Zeit festgelegt wird. Dies sorgt für eine hohe Determinismus und Echtzeitfähigkeit.</p>
+</li>
+<li>
+<p><strong>Echtzeit-Anforderungen:</strong> Die Architektur ist optimiert für Echtzeit- und sicherheitskritische Anwendungen, bei denen eine zuverlässige und zeitgerechte Ausführung der Software essenziell ist.</p>
+</li>
+</ul>
+<p><strong>Diagramm: AUTOSAR Classic Architektur</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                 AUTOSAR Classic Architektur                 |
+| +---------------------------------------------------------+ |
+| |  Anwendungsschicht                                      | |
+| |  - Softwarekomponenten (SWC)                            | |
+| +---------------------------------------------------------+ |
+| |  RTE (Runtime Environment)                               | |
+| +---------------------------------------------------------+ |
+| |  Basissoftware (BSW)                                     | |
+| |  - Microcontroller Abstraction Layer (MCAL)             | |
+| |  - ECU Abstraction Layer                                 | |
+| |  - Complex Drivers                                       | |
++-------------------------------------------------------------+
+|                 Hardware (Microcontroller, Sensoren)         |
++-------------------------------------------------------------+
+</code></pre>
+<p><strong>AUTOSAR Adaptive Architektur:</strong></p>
+<ul>
+<li>
+<p><strong>Serviceorientierte Architektur (SOA):</strong> AUTOSAR Adaptive basiert auf einer flexiblen und dynamischen serviceorientierten Architektur, die es ermöglicht, Dienste zur Laufzeit zu registrieren, zu entdecken und aufzurufen.</p>
+<ul>
+<li>
+<p><strong>Adaptive Platform Foundation:</strong> Stellt grundlegende Funktionen wie Kommunikation, Persistenz, Sicherheit und Update-Mechanismen bereit.</p>
+</li>
+<li>
+<p><strong>Adaptive Application Layer:</strong> Beinhaltet die Applikationen und Dienste, die auf der Adaptive Platform ausgeführt werden. Diese können dynamisch gestartet und gestoppt werden, basierend auf den Anforderungen des Systems.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Dynamische Konfiguration:</strong> Im Gegensatz zu AUTOSAR Classic ist die Architektur von AUTOSAR Adaptive dynamisch. Das bedeutet, dass Softwaremodule und Dienste zur Laufzeit konfiguriert und angepasst werden können. Dies ist besonders wichtig für Anwendungen, die sich im Laufe der Zeit ändern oder erweiterbar sein müssen, wie z. B. durch OTA-Updates.</p>
+</li>
+<li>
+<p><strong>Mehrkern- und Multithreading-Unterstützung:</strong> Die Plattform unterstützt moderne Multicore-Prozessoren und ermöglicht die parallele Ausführung von Softwarekomponenten, was die Leistung für rechenintensive Aufgaben verbessert.</p>
+</li>
+<li>
+<p><strong>Integration von Standardtechnologien:</strong> AUTOSAR Adaptive integriert moderne IT-Standards wie POSIX-kompatible Betriebssysteme, C++ und IP-basierte Kommunikationsprotokolle wie SOME/IP und DDS.</p>
+</li>
+</ul>
+<p><strong>Diagramm: AUTOSAR Adaptive Architektur</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                 AUTOSAR Adaptive Architektur                |
+| +---------------------------------------------------------+ |
+| |  Adaptive Application Layer                             | |
+| |  - Dienste und Anwendungen (SOA)                        | |
+| +---------------------------------------------------------+ |
+| |  Adaptive Platform Foundation                           | |
+| |  - Kommunikation (SOME/IP, DDS)                         | |
+| |  - Persistenz, Sicherheit                               | |
+| |  - Update-Mechanismen (OTA)                             | |
++-------------------------------------------------------------+
+|         POSIX-kompatibles Betriebssystem (Linux, QNX)       |
++-------------------------------------------------------------+
+|                 Hardware (Multicore-Prozessoren)            |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="253-vergleich-der-anwendungsfälle"><a class="header" href="#253-vergleich-der-anwendungsfälle">2.5.3 <strong>Vergleich der Anwendungsfälle</strong></a></h4>
+<p><strong>Anwendungsfälle für AUTOSAR Classic:</strong></p>
+<ul>
+<li>
+<p><strong>Echtzeit- und sicherheitskritische Systeme:</strong></p>
+<ul>
+<li>Anwendungen, die strikte Echtzeit-Anforderungen und hohe Sicherheitsstandards erfordern, wie z. B. Motorsteuerungen, Bremssysteme, Airbag-Steuerungen und Fahrdynamikregelungen, sind typischerweise auf AUTOSAR Classic angewiesen.</li>
+</ul>
+</li>
+<li>
+<p><strong>Deterministische Steuerungen:</strong></p>
+<ul>
+<li>Systeme, bei denen eine deterministische Ausführung der Software von höchster Wichtigkeit ist, nutzen die statische Konfiguration und feste Verbindungen von AUTOSAR Classic.</li>
+</ul>
+</li>
+<li>
+<p><strong>Integration in traditionelle Fahrzeugarchitekturen:</strong></p>
+<ul>
+<li>AUTOSAR Classic ist ideal für die Integration in bestehende Fahrzeugplattformen, die auf etablierten ECU-Architekturen basieren.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Anwendungsfälle für AUTOSAR Adaptive:</strong></p>
+<ul>
+<li>
+<p><strong>Autonomes Fahren:</strong></p>
+<ul>
+<li>AUTOSAR Adaptive unterstützt die komplexen Rechenanforderungen autonomer Fahrzeuge, einschließlich Sensorfusion, künstliche Intelligenz und maschinelles Lernen, sowie die Fähigkeit zur dynamischen Anpassung und Update der Software während der Laufzeit.</li>
+</ul>
+</li>
+<li>
+<p><strong>V2X-Kommunikation und vernetzte Dienste:</strong></p>
+<ul>
+<li>Adaptive Plattformen sind besonders gut geeignet für V2X-Kommunikation (Vehicle-to-Everything) und vernetzte Fahrzeugdienste, die hohe Bandbreiten und die Integration externer Dienste erfordern.</li>
+</ul>
+</li>
+<li>
+<p><strong>Infotainment- und Komfortsysteme:</strong></p>
+<ul>
+<li>Die dynamischen und flexiblen Konfigurationsmöglichkeiten der Adaptive Plattform ermöglichen die Implementierung komplexer Infotainment- und Komfortsysteme, die regelmäßig aktualisiert und erweitert werden können.</li>
+</ul>
+</li>
+<li>
+<p><strong>OTA-Updates und Cybersecurity:</strong></p>
+<ul>
+<li>Fahrzeuge, die OTA-Updates und fortschrittliche Cybersicherheitsmaßnahmen erfordern, profitieren von der Flexibilität und den Sicherheitsfunktionen, die AUTOSAR Adaptive bietet.</li>
+</ul>
+</li>
+</ul>
+<h4 id="254-Übergang-von-autosar-classic-zu-autosar-adaptive"><a class="header" href="#254-Übergang-von-autosar-classic-zu-autosar-adaptive">2.5.4 <strong>Übergang von AUTOSAR Classic zu AUTOSAR Adaptive</strong></a></h4>
+<p>Der Übergang von AUTOSAR Classic zu AUTOSAR Adaptive stellt sowohl für Fahrzeughersteller als auch für Zulieferer eine signifikante Veränderung dar. Dieser Übergang ist notwendig, um den Anforderungen moderner Fahrzeuge gerecht zu werden, die eine höhere Rechenleistung, flexible Softwarearchitekturen und dynamische Systemkonfigurationen erfordern.</p>
+<p><strong>Herausforderungen beim Übergang:</strong></p>
+<ul>
+<li>
+<p><strong>Koexistenz von Classic und Adaptive:</strong></p>
+<ul>
+<li>In der Übergangsphase müssen viele Fahrzeuge sowohl AUTOSAR Classic als auch AUTOSAR Adaptive unterstützen, was die Integration beider Plattformen innerhalb desselben Fahrzeugs erfordert. Dies kann durch die Verwendung von Gateways und Middleware-Lösungen erleichtert werden, die eine nahtlose Kommunikation zwischen den beiden Plattformen ermöglichen.</li>
+</ul>
+</li>
+<li>
+<p><strong>Migration von Softwarekomponenten:</strong></p>
+<ul>
+<li>Bestehende Softwarekomponenten, die auf AUTOSAR Classic basieren, müssen möglicherweise auf AUTOSAR Adaptive migriert werden. Dies erfordert eine gründliche Planung, da die beiden Plattformen unterschiedliche Entwicklungsansätze und Laufzeitumgebungen verwenden.</li>
+</ul>
+</li>
+<li>
+<p><strong>Schulung und Umschulung:</strong></p>
+<ul>
+<li>Entwickler und Ingenieure müssen in den neuen Technologien und Methoden von AUTOSAR Adaptive geschult werden. Dies umfasst nicht nur die Verwendung von neuen Programmiersprachen und Werkzeugen, sondern auch das Verständnis von serviceorientierten Architekturen und dynamischen Systemkonfigurationen.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Vorteile des Übergangs:</strong></p>
+<ul>
+<li>
+<p><strong>Zukunftssicherheit:</strong></p>
+<ul>
+<li>AUTOSAR Adaptive bietet eine zukunftssichere Plattform, die für die Anforderungen der nächsten Generation von Fahrzeugen entwickelt wurde, einschließlich autonomer Systeme und vernetzter Dienste.</li>
+</ul>
+</li>
+<li>
+<p><strong>Erhöhte Flexibilität und Anpassungsfähigkeit:</strong></p>
+</li>
+<li>
+<p>Die dynamische Natur von AUTOSAR Adaptive ermöglicht es, neue Funktionen und Dienste schnell zu integrieren und auf veränderte Marktanforderungen zu reagieren.</p>
+</li>
+<li>
+<p><strong>Skalierbarkeit und Multicore-Unterstützung:</strong></p>
+<ul>
+<li>Die Plattform ist für moderne Mehrkernprozessoren optimiert und ermöglicht es, rechenintensive Anwendungen parallel auszuführen, was zu einer höheren Systemleistung und Effizienz führt.</li>
+</ul>
+</li>
+</ul>
+<h4 id="255-zusammenfassung"><a class="header" href="#255-zusammenfassung">2.5.5 <strong>Zusammenfassung</strong></a></h4>
+<p>AUTOSAR Classic und AUTOSAR Adaptive sind zwei verschiedene Plattformen, die auf die spezifischen Anforderungen unterschiedlicher Fahrzeuganwendungen ausgerichtet sind. Während AUTOSAR Classic ideal für sicherheitskritische, echtzeitfähige Systeme mit festen Anforderungen ist, bietet AUTOSAR Adaptive die Flexibilität und Dynamik, die für moderne, vernetzte und autonome Fahrzeuge erforderlich ist. Der Übergang von Classic zu Adaptive stellt eine große Herausforderung dar, bietet jedoch enorme Vorteile für die zukünftige Fahrzeugentwicklung, indem er eine skalierbare, flexible und zukunftssichere Plattform bereitstellt, die den steigenden Anforderungen an Software- und Fahrzeugarchitekturen gerecht wird.</p>
+<hr />
+<p>Dieses Kapitel bietet eine detaillierte Analyse der Unterschiede zwischen AUTOSAR Classic und AUTOSAR Adaptive und beleuchtet die spezifischen Anwendungsfälle, für die jede Plattform am besten geeignet ist. Es dient als Leitfaden für Ingenieure und technische Fachkräfte, die die Implementierung dieser Plattformen in ihren Projekten planen und den Übergang von klassischen zu modernen, serviceorientierten Architekturen in der Automobilindustrie bewältigen möchten.</p>
 
                     </main>
 

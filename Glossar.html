@@ -174,6 +174,102 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="glossar"><a class="header" href="#glossar">Glossar</a></h1>
+<h2 id="p"><a class="header" href="#p">P</a></h2>
+<h3 id="parameter-eines-signals"><a class="header" href="#parameter-eines-signals">Parameter eines Signals</a></h3>
+<p>Das Signal „MotorTemperatur“ ist ein Beispiel für ein typisches Signal, das in einem automobilen Kommunikationssystem verwendet wird, um die Temperatur des Motors in Grad Celsius zu übermitteln. Um zu verstehen, wie dieses Signal definiert und interpretiert wird, sind folgende Parameter wichtig:</p>
+<h3 id="parameter-des-signals-motortemperatur"><a class="header" href="#parameter-des-signals-motortemperatur"><strong>Parameter des Signals „MotorTemperatur“</strong></a></h3>
+<ol>
+<li>
+<p><strong>Länge: 8 Bit (1 Byte)</strong></p>
+<ul>
+<li><strong>Erläuterung:</strong> Die Länge eines Signals gibt an, wie viele Bits (die kleinste Informationseinheit) zur Darstellung des Signals verwendet werden. In diesem Fall ist das Signal 8 Bit lang, was 1 Byte entspricht. Ein 8-Bit-Signal kann Werte im Bereich von 0 bis 255 darstellen, da 2⁸ = 256 mögliche Werte existieren. Diese 256 mögliche Werte müssen dann in den entsprechenden Temperaturbereich abgebildet werden.</li>
+</ul>
+</li>
+<li>
+<p><strong>Skalierungsfaktor: 0,5</strong></p>
+<ul>
+<li>
+<p><strong>Erläuterung:</strong> Der Skalierungsfaktor wird verwendet, um den digitalen Wert des Signals in eine physikalische Größe umzuwandeln. Er gibt an, wie viel physikalische Einheiten (z. B. Grad Celsius) einem Zählerwert von 1 im digitalen Signal entsprechen. In diesem Fall bedeutet ein digitaler Anstieg um 1 im Signal eine Erhöhung der Temperatur um 0,5 Grad Celsius.</p>
+</li>
+<li>
+<p><strong>Beispielrechnung:</strong> Wenn der digitale Wert des Signals 100 beträgt, entspricht dies einer physikalischen Temperatur von 100 * 0,5 = 50 °C.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Offset: -40</strong></p>
+<ul>
+<li>
+<p><strong>Erläuterung:</strong> Das Offset gibt an, wie viel zu dem skalierten Wert hinzugefügt oder davon abgezogen werden muss, um den tatsächlichen physikalischen Wert zu erhalten. Das Offset wird angewendet, um negative Werte oder eine Verschiebung des Messbereichs zu ermöglichen. In diesem Beispiel wird von dem berechneten Wert 40 abgezogen.</p>
+</li>
+<li>
+<p><strong>Beispielrechnung:</strong> Wenn das Signal einen digitalen Wert von 100 hat, ergibt sich der physikalische Wert durch die Formel: ( \text{Temperatur} = (\text{Digitaler Wert} \times \text{Skalierungsfaktor}) + \text{Offset} )</p>
+<ul>
+<li>Temperatur = (100 * 0,5) + (-40) = 50 - 40 = 10 °C</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Wertebereich: -40 bis 215 °C</strong></p>
+<ul>
+<li>
+<p><strong>Erläuterung:</strong> Der Wertebereich gibt die physikalischen Extremwerte an, die das Signal darstellen kann. In diesem Beispiel bedeutet der Wertebereich, dass die niedrigste darstellbare Temperatur -40 °C und die höchste darstellbare Temperatur 215 °C beträgt.</p>
+</li>
+<li>
+<p><strong>Berechnung des Maximal- und Minimalwerts:</strong></p>
+<ul>
+<li><strong>Minimalwert:</strong> Wenn der digitale Wert 0 beträgt, ergibt sich der minimal mögliche physikalische Wert: \
+((0 \times 0,5) + (-40) = -40) °C.</li>
+<li><strong>Maximalwert:</strong> Wenn der digitale Wert 255 beträgt (der maximale Wert bei 8 Bit), ergibt sich der maximal mögliche physikalische Wert: \
+((255 \times 0,5) + (-40) = 127,5 - 40 = 87,5) °C.</li>
+</ul>
+</li>
+</ul>
+<p>In der Praxis wird der Wertebereich oft so eingestellt, dass die tatsächlichen möglichen physikalischen Werte vollständig abgedeckt werden, manchmal auch über den tatsächlich genutzten Bereich hinaus, um Reservewerte für spezielle Bedingungen oder Fehlerzustände zu ermöglichen.</p>
+</li>
+</ol>
+<h3 id="pdu"><a class="header" href="#pdu">PDU</a></h3>
+<p>Eine <strong>PDU</strong> (Protokolldateneinheit, englisch: Protocol Data Unit) ist ein grundlegendes Konzept in der Netzwerk- und Kommunikationsarchitektur, das die spezifische Form und Struktur beschreibt, in der Daten über ein Netzwerk übertragen werden. Im Kontext von AUTOSAR (AUTomotive Open System ARchitecture) und anderen Kommunikationsprotokollen wird eine PDU verwendet, um Daten zwischen verschiedenen elektronischen Steuergeräten (ECUs) innerhalb eines Fahrzeugs zu transportieren.</p>
+<ol>
+<li>
+<p><strong>Definition:</strong>
+Eine PDU ist eine strukturierte Einheit von Daten, die für die Übertragung über ein Netzwerk formatiert ist. Sie enthält nicht nur die Nutzdaten (das eigentliche Signal oder die Informationen, die übertragen werden sollen), sondern auch Steuerinformationen, die benötigt werden, um die Daten sicher und korrekt über das Netzwerk zu transportieren. Diese Steuerinformationen können Adressen, Protokolltypen, Sequenznummern und Prüfsummen umfassen.</p>
+</li>
+<li>
+<p><strong>Komponenten einer PDU:</strong>
+Eine typische PDU besteht aus mehreren Teilen:</p>
+<ul>
+<li><strong>Header:</strong> Enthält Steuerinformationen, wie Absender- und Empfängeradresse, Protokollinformationen und andere Kontrollfelder.</li>
+<li><strong>Payload (Nutzdaten):</strong> Das sind die eigentlichen Daten, die übertragen werden sollen, wie z.B. ein Signal im AUTOSAR-Kontext.</li>
+<li><strong>Trailer (optional):</strong> Einige Protokolle fügen am Ende der PDU noch zusätzliche Informationen hinzu, wie z.B. eine Prüfsumme zur Fehlererkennung.</li>
+</ul>
+</li>
+<li>
+<p><strong>PDU im AUTOSAR-Kontext:</strong>
+Im AUTOSAR-Umfeld werden PDUs verwendet, um Signale zwischen den ECUs eines Fahrzeugs zu transportieren. AUTOSAR definiert klare Standards für die Struktur und den Inhalt von PDUs, um sicherzustellen, dass verschiedene ECUs, die möglicherweise von unterschiedlichen Herstellern stammen, nahtlos miteinander kommunizieren können.</p>
+<p><strong>Beispiel:</strong></p>
+<ul>
+<li>Angenommen, eine ECU erfasst die Geschwindigkeit eines Fahrzeugs und möchte diese Information an das Steuergerät des Navigationssystems weitergeben. Die Geschwindigkeit wird als Signal kodiert, in eine PDU gepackt und über den CAN-Bus (oder ein anderes Netzwerkprotokoll) an die Ziel-ECU gesendet. Die PDU enthält die Geschwindigkeit als Nutzdaten, zusammen mit anderen notwendigen Steuerinformationen im Header, wie z.B. dem Zielort der Daten.</li>
+</ul>
+</li>
+<li>
+<p><strong>Funktion der PDU:</strong></p>
+<ul>
+<li><strong>Datenkapselung:</strong> PDUs kapseln Signale und andere Informationen in einer standardisierten Form, sodass sie über das Netzwerk übertragen werden können.</li>
+<li><strong>Fehlererkennung und -korrektur:</strong> Durch Steuerinformationen wie Prüfsummen können Empfänger überprüfen, ob die Daten korrekt übertragen wurden, und Fehler erkennen und gegebenenfalls korrigieren.</li>
+<li><strong>Multikasting:</strong> In manchen Netzwerken kann eine PDU an mehrere Empfänger gesendet werden, wobei alle Empfänger dieselbe PDU gleichzeitig erhalten.</li>
+</ul>
+</li>
+<li>
+<p><strong>Vorteile der PDU-Nutzung:</strong></p>
+<ul>
+<li><strong>Standardisierung:</strong> PDUs ermöglichen eine standardisierte Datenübertragung, was die Interoperabilität zwischen verschiedenen Systemen und Herstellern erleichtert.</li>
+<li><strong>Modularität:</strong> Da PDUs klar strukturierte Einheiten sind, können sie leicht in verschiedenen Teilen des Netzwerks verarbeitet und interpretiert werden.</li>
+<li><strong>Effizienz:</strong> Durch die Bündelung von Signalen in einer PDU können mehrere Daten gleichzeitig übertragen werden, was die Effizienz des Netzwerks erhöht.</li>
+</ul>
+</li>
+</ol>
 
                     </main>
 

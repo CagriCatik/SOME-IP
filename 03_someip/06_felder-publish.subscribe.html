@@ -174,6 +174,206 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="felder---publishsubscribe"><a class="header" href="#felder---publishsubscribe">Felder - Publish/Subscribe</a></h1>
+<h3 id="36-felder---publishsubscribe-in-someip"><a class="header" href="#36-felder---publishsubscribe-in-someip">3.6 <strong>Felder - Publish/Subscribe in SOME/IP</strong></a></h3>
+<p>Das <strong>Feld-basierte Publish/Subscribe-Modell</strong> in SOME/IP ist eine spezielle Variante des allgemeinen Publish/Subscribe-Modells, die es ermöglicht, Änderungen an bestimmten Datenfeldern in einem Service zu überwachen und an Abonnenten zu verteilen. Dieses Modell unterscheidet sich vom ereignisbasierten Modell dadurch, dass es sich auf die kontinuierliche Überwachung und Übermittlung von Werten einzelner Felder konzentriert, anstatt auf die Benachrichtigung über bestimmte Ereignisse. In diesem Abschnitt wird das feldbasierte Publish/Subscribe-Modell detailliert beschrieben, einschließlich seiner Funktionsweise, der Unterschiede zum ereignisbasierten Modell und der typischen Anwendungen in der Automobilindustrie.</p>
+<h4 id="361-einführung-in-das-feld-basierte-publishsubscribe-modell"><a class="header" href="#361-einführung-in-das-feld-basierte-publishsubscribe-modell">3.6.1 <strong>Einführung in das Feld-basierte Publish/Subscribe-Modell</strong></a></h4>
+<p><strong>Definition und Funktionsweise:</strong>
+Im feldbasierten Publish/Subscribe-Modell werden spezifische Datenfelder innerhalb eines Dienstes überwacht und bei Änderungen an interessierte Abonnenten (Subscriber) gesendet. Dies ermöglicht eine feinkörnigere Kontrolle und Überwachung von Daten im Vergleich zum ereignisbasierten Modell, bei dem ganze Ereignisse veröffentlicht werden.</p>
+<p><strong>Hauptmerkmale:</strong></p>
+<ul>
+<li><strong>Feldüberwachung:</strong> Bestimmte Felder, die wichtige Daten enthalten, werden kontinuierlich überwacht. Sobald ein Feld aktualisiert wird, wird der neue Wert automatisch an alle registrierten Subscriber gesendet.</li>
+<li><strong>Feinkörnige Datenkontrolle:</strong> Im Gegensatz zu einem allgemeinen Ereignis, das mehrere Datenwerte umfassen kann, fokussiert sich dieses Modell auf einzelne Felder, wodurch eine präzisere Datenverteilung möglich ist.</li>
+<li><strong>Asynchrone Kommunikation:</strong> Wie beim ereignisbasierten Modell erfolgt die Kommunikation asynchron, das heißt, der Publisher muss nicht auf eine Rückmeldung der Subscriber warten.</li>
+</ul>
+<p><strong>Diagramm: Feld-basiertes Publish/Subscribe-Muster</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|             Feld-basiertes Publish/Subscribe-Muster         |
+| +---------------------------------------------------------+ |
+| |  Publisher (z.B. Steuergerät)                            | |
+| |  - Überwacht Feld: Motortemperatur                      | |
+| |  - Veröffentlicht neuen Feldwert bei Änderung           | |
+| +---------------------------------------------------------+ |
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 1 (z.B. Klimasteuergerät)                    | |
+| |  - Abonniert Feld: Passt Lüfterdrehzahl an               | |
++-------------------------------------------------------------+
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 2 (z.B. Infotainment-System)                | |
+| |  - Abonniert Feld: Zeigt Temperatur an                  | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="362-unterschiede-zwischen-feld-basiertem-und-ereignis-basiertem-publishsubscribe"><a class="header" href="#362-unterschiede-zwischen-feld-basiertem-und-ereignis-basiertem-publishsubscribe">3.6.2 <strong>Unterschiede zwischen Feld-basiertem und Ereignis-basiertem Publish/Subscribe</strong></a></h4>
+<p><strong>Feld-basiertes Modell:</strong></p>
+<ul>
+<li><strong>Fokus auf einzelne Datenfelder:</strong> Überwacht und veröffentlicht Änderungen an spezifischen Datenfeldern innerhalb eines Dienstes.</li>
+<li><strong>Kontinuierliche Überwachung:</strong> Der Zustand eines Feldes wird kontinuierlich überwacht, und jede Änderung wird an die Subscriber weitergegeben.</li>
+<li><strong>Granularität:</strong> Bietet eine detaillierte, feldspezifische Datenüberwachung und -verteilung.</li>
+</ul>
+<p><strong>Ereignis-basiertes Modell:</strong></p>
+<ul>
+<li><strong>Fokus auf gesamte Ereignisse:</strong> Veröffentlicht komplette Ereignisse, die möglicherweise mehrere Datenfelder umfassen.</li>
+<li><strong>Zustand oder Ereignis:</strong> Abonniert auf die Benachrichtigung von Zustandsänderungen oder spezifischen Ereignissen, die auftreten.</li>
+<li><strong>Verallgemeinerte Überwachung:</strong> Verfolgt und übermittelt Ereignisse, die mehrere Daten oder Statusänderungen umfassen können.</li>
+</ul>
+<p><strong>Diagramm: Vergleich Feld-basiertes vs. Ereignis-basiertes Modell</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|          Vergleich: Feld-basiertes vs. Ereignis-basiertes   |
+| +------------------------+-------------------------------+ |
+| |  Feld-basiertes Modell   |  Ereignis-basiertes Modell     | |
+| +------------------------+-------------------------------+ |
+| |  Fokus auf einzelne     |  Fokus auf gesamte Ereignisse  | |
+| |  Datenfelder            |  (mehrere Datenfelder)         | |
+| +------------------------+-------------------------------+ |
+| |  Kontinuierliche        |  Überwachung von Zuständen     | |
+| |  Überwachung von Feldern|  und Ereignissen              | |
+| +------------------------+-------------------------------+ |
+| |  Hohe Granularität      |  Verallgemeinerte Überwachung  | |
+| |  (feldspezifisch)       |  (umfasst mehrere Felder)      | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="363-anwendungen-des-feld-basierten-publishsubscribe-modells-in-der-automobilindustrie"><a class="header" href="#363-anwendungen-des-feld-basierten-publishsubscribe-modells-in-der-automobilindustrie">3.6.3 <strong>Anwendungen des Feld-basierten Publish/Subscribe-Modells in der Automobilindustrie</strong></a></h4>
+<p><strong>Beispiel 1: Motortemperaturüberwachung</strong></p>
+<ul>
+<li><strong>Anwendung:</strong> Das Steuergerät für die Motorsteuerung überwacht kontinuierlich die Motortemperatur. Dieser Wert wird als Feld innerhalb des Dienstes definiert, und Änderungen an diesem Feld werden automatisch an abonnierten Systeme, wie das Klimasteuergerät oder das Infotainment-System, gesendet.</li>
+<li><strong>Prozess:</strong>
+<ul>
+<li><strong>Feldüberwachung:</strong> Das Motorsteuergerät überwacht die aktuelle Motortemperatur.</li>
+<li><strong>Publish:</strong> Bei jeder Änderung der Temperatur wird der neue Wert veröffentlicht.</li>
+<li><strong>Subscribe:</strong> Das Klimasteuergerät passt die Lüfterdrehzahl basierend auf der neuen Temperatur an, während das Infotainment-System die Temperatur dem Fahrer anzeigt.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Diagramm: Feld-basiertes Publish/Subscribe für Motortemperatur</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                  Motortemperaturüberwachung                 |
+| +---------------------------------------------------------+ |
+| |  Publisher (Motorsteuergerät)                            | |
+| |  - Überwacht Feld: Motortemperatur                      | |
+| |  - Veröffentlicht neuen Feldwert bei Änderung           | |
+| +---------------------------------------------------------+ |
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 1 (z.B. Klimasteuergerät)                    | |
+| |  - Abonniert Feld: Passt Lüfterdrehzahl an               | |
++-------------------------------------------------------------+
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 2 (z.B. Infotainment-System)                | |
+| |  - Abonniert Feld: Zeigt Temperatur an                  | |
++-------------------------------------------------------------+
+</code></pre>
+<p><strong>Beispiel 2: Batteriestatus in Elektrofahrzeugen</strong></p>
+<ul>
+<li><strong>Anwendung:</strong> In einem Elektrofahrzeug überwacht das Batteriemanagementsystem (BMS) kontinuierlich den Ladezustand der Batterie. Der Ladezustand (State of Charge, SoC) ist ein spezifisches Feld, das von verschiedenen Systemen abonniert werden kann, um die Fahrzeugleistung zu optimieren und den Fahrer zu informieren.</li>
+<li><strong>Prozess:</strong>
+<ul>
+<li><strong>Feldüberwachung:</strong> Das BMS überwacht kontinuierlich den Ladezustand der Batterie.</li>
+<li><strong>Publish:</strong> Bei Änderungen des SoC wird der neue Wert veröffentlicht.</li>
+<li><strong>Subscribe:</strong> Das Antriebssteuergerät nutzt diese Information, um die Fahrzeugleistung anzupassen, während das Infotainment-System den Ladezustand auf dem Display anzeigt.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Diagramm: Feld-basiertes Publish/Subscribe für Batteriestatus</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|                    Batteriestatusüberwachung                |
+| +---------------------------------------------------------+ |
+| |  Publisher (BMS)                                         | |
+| |  - Überwacht Feld: Ladezustand                           | |
+| |  - Veröffentlicht neuen Feldwert bei Änderung            | |
+| +---------------------------------------------------------+ |
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 1 (z.B. Antriebssteuergerät)                 | |
+| |  - Abonniert Feld: Passt Fahrzeugleistung an             | |
++-------------------------------------------------------------+
+|               |                              |               |
+|               v                              v               |
+| +---------------------------------------------------------+ |
+| |  Subscriber 2 (z.B. Infotainment-System)                | |
+| |  - Abonniert Feld: Zeigt Ladezustand an                 | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="364-vorteile-des-feld-basierten-publishsubscribe-modells"><a class="header" href="#364-vorteile-des-feld-basierten-publishsubscribe-modells">3.6.4 <strong>Vorteile des Feld-basierten Publish/Subscribe-Modells</strong></a></h4>
+<p><strong>1. Granulare Datenkontrolle:</strong></p>
+<ul>
+<li>Das Modell ermöglicht eine detaillierte Überwachung und Steuerung von spezifischen Datenfeldern, was besonders nützlich in komplexen Systemen ist, in denen einzelne Werte von kritischer Bedeutung sind.</li>
+</ul>
+<p><strong>2. Effiziente Ressourcennutzung:</strong></p>
+<ul>
+<li>Da nur Änderungen an spezifischen Feldern veröffentlicht werden, wird das Netzwerk nicht mit unnötigen Daten überlastet, was zu einer effizienteren Nutzung der Bandbreite führt.</li>
+</ul>
+<p><strong>3. Verbesserung der Reaktionszeit:</strong></p>
+<ul>
+<li>Änderungen an kritischen Feldern können sofort an alle relevanten Systeme weitergeleitet werden, was die Reaktionsfähigkeit des Gesamtsystems verbessert.</li>
+</ul>
+<p><strong>4. Vereinfachte Wartung und Erweiterbarkeit:</strong></p>
+<ul>
+<li>Durch die Trennung von Datenfeldern und deren Überwachung wird die Systemarchitektur modularer, was die Wartung und Erweiterung des Systems erleichtert.</li>
+</ul>
+<p><strong>Diagramm: Vorteile des Feld-basierten Publish/Subscribe-Modells</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|               Vorteile des
+
+ Feld-basierten Modells           |
+| +---------------------------------------------------------+ |
+| |  Granulare Datenkontrolle                                | |
+| |  - Detaillierte Überwachung einzelner Werte               | |
+| +---------------------------------------------------------+ |
+| |  Effiziente Ressourcennutzung                            | |
+| |  - Nur relevante Änderungen werden veröffentlicht         | |
+| +---------------------------------------------------------+ |
+| |  Verbesserung der Reaktionszeit                          | |
+| |  - Sofortige Weiterleitung kritischer Änderungen          | |
+| +---------------------------------------------------------+ |
+| |  Vereinfachte Wartung und Erweiterbarkeit                | |
+| |  - Modularere Systemarchitektur                          | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="365-best-practices-für-die-implementierung-des-feld-basierten-publishsubscribe-modells"><a class="header" href="#365-best-practices-für-die-implementierung-des-feld-basierten-publishsubscribe-modells">3.6.5 <strong>Best Practices für die Implementierung des Feld-basierten Publish/Subscribe-Modells</strong></a></h4>
+<p><strong>1. Auswahl relevanter Felder:</strong></p>
+<ul>
+<li>Identifizieren und überwachen Sie nur die Felder, die wirklich kritisch für die Anwendung sind, um die Effizienz und Performance des Systems zu maximieren.</li>
+</ul>
+<p><strong>2. Schwellenwerte und Filter implementieren:</strong></p>
+<ul>
+<li>Implementieren Sie Schwellenwerte und Filter, um sicherzustellen, dass nur signifikante Änderungen an Feldern veröffentlicht werden. Dies reduziert die Anzahl der Nachrichten im Netzwerk und verhindert unnötige Belastungen.</li>
+</ul>
+<p><strong>3. Sicherstellung der Datenkonsistenz:</strong></p>
+<ul>
+<li>Stellen Sie sicher, dass die Datenkonsistenz zwischen Publisher und Subscriber gewährleistet ist, insbesondere in sicherheitskritischen Anwendungen. Dies kann durch regelmäßige Überprüfungen und Synchronisationen unterstützt werden.</li>
+</ul>
+<p><strong>4. Überwachung und Protokollierung:</strong></p>
+<ul>
+<li>Implementieren Sie Überwachungs- und Protokollierungssysteme, um sicherzustellen, dass die Feldüberwachung korrekt funktioniert und alle relevanten Änderungen erfasst und verteilt werden.</li>
+</ul>
+<p><strong>Diagramm: Best Practices für Feld-basiertes Publish/Subscribe</strong></p>
+<pre><code class="language-plaintext">+-------------------------------------------------------------+
+|            Best Practices für Feld-basiertes Modell         |
+| +---------------------------------------------------------+ |
+| |  Auswahl relevanter Felder                               | |
+| |  - Nur kritische Felder überwachen und veröffentlichen    | |
+| +---------------------------------------------------------+ |
+| |  Schwellenwerte und Filter                               | |
+| |  - Nur signifikante Änderungen veröffentlichen            | |
+| +---------------------------------------------------------+ |
+| |  Sicherstellung der Datenkonsistenz                      | |
+| |  - Regelmäßige Überprüfungen und Synchronisationen       | |
+| +---------------------------------------------------------+ |
+| |  Überwachung und Protokollierung                         | |
+| |  - Sicherstellen der korrekten Funktion der Feldüberwachung | |
++-------------------------------------------------------------+
+</code></pre>
+<h4 id="366-zusammenfassung"><a class="header" href="#366-zusammenfassung">3.6.6 <strong>Zusammenfassung</strong></a></h4>
+<p>Das feldbasierte Publish/Subscribe-Modell in SOME/IP bietet eine detaillierte und effiziente Möglichkeit zur Überwachung und Verteilung von Daten in serviceorientierten Fahrzeugarchitekturen. Durch die gezielte Überwachung und Veröffentlichung von Änderungen an spezifischen Feldern können Automobilingenieure sicherstellen, dass kritische Daten effizient und in Echtzeit an die relevanten Systeme weitergeleitet werden. Die Implementierung von Best Practices hilft, die Systemleistung zu optimieren und eine robuste, skalierbare Architektur zu gewährleisten, die den Anforderungen moderner Fahrzeuge gerecht wird.</p>
+<hr />
+<p>Dieses Kapitel bietet eine umfassende Analyse des feldbasierten Publish/Subscribe-Modells in SOME/IP und erklärt, wie es in der Automobilindustrie eingesetzt werden kann, um eine granulare Überwachung und Verteilung von kritischen Daten zu ermöglichen. Ingenieure und technische Fachkräfte können diese Informationen nutzen, um leistungsstarke und effiziente Kommunikationssysteme in ihren Fahrzeugprojekten zu entwickeln.</p>
 
                     </main>
 
