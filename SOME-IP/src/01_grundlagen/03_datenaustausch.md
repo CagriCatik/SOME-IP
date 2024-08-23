@@ -1,1 +1,0 @@
-# Datenaustausch über Ethernet Backbone

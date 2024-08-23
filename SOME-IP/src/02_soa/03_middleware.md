@@ -1,1 +1,0 @@
-# SOA Middleware-Implementierungen
